@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 from moviepy import VideoFileClip  # Fixed import
 from dotenv import load_dotenv
+from flask_cors import CORS
  
 from utils.audio_processor import process_audio_file
 from utils.cloudinary_utils import upload_to_cloudinary
@@ -19,7 +20,12 @@ ALLOWED_EXTENSIONS = {'mp4', 'mov', 'avi', 'mkv'}
 MAX_CONTENT_LENGTH = 100 * 1024 * 1024  # 100MB max
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 os.makedirs(BASE_FOLDER, exist_ok=True)
- 
+# After app = Flask(__name__)
+CORS(app, resources={
+    r"/*": {
+        "origins": "https://airtable-react-reveal.vercel.app"
+    }
+}) 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
  
@@ -84,3 +90,4 @@ def upload_video():
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
