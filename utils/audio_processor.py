@@ -38,7 +38,7 @@ def transcribe_chunk(chunk_path, LANGUAGE_CODE):
     with open(chunk_path, 'rb') as audio_file:
         files = {'file': ('audio.wav', audio_file, 'audio/wav')}
         data = {
-            'model': 'saarika:v2',
+            'model': 'saarika:v2.5',
             'language_code': LANGUAGE_CODE
         }
  
@@ -66,3 +66,4 @@ def process_audio_file(audio_path, language=LANGUAGE_CODE):
                 os.remove(chunk_path)
  
     return transcript.strip()
+
