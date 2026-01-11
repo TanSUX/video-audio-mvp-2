@@ -21,11 +21,20 @@ MAX_CONTENT_LENGTH = 100 * 1024 * 1024  # 100MB max
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
 os.makedirs(BASE_FOLDER, exist_ok=True)
 # After app = Flask(__name__)
-CORS(app, resources={
-    r"/*": {
-        "origins": "https://airtable-react-reveal.vercel.app"
+# After app = Flask(__name__)
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": [
+                "http://localhost:8080",
+                "http://127.0.0.1:8080",
+                "https://airtable-react-reveal.vercel.app",
+                "https://airtable-react-reveal.lovable.app"
+            ]
+        }
     }
-}) 
+)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
  
@@ -90,4 +99,5 @@ def upload_video():
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
 
