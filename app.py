@@ -34,7 +34,8 @@ CORS(
             ]
         }
     },
-    supports_credentials=False
+    supports_credentials=False,
+    intercept_exceptions=True
 )
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -50,8 +51,10 @@ def convert_video_to_audio(video_path, output_audio_path):
 def index():
     return jsonify({"message": "Video-to-Audio API is running"}), 200
  
-@app.route('/upload-video', methods=['POST'])
+@app.route('/upload-video', methods=['POST','OPTIONS'])
 def upload_video():
+    if request.method == 'OPTIONS':
+        return '', 204
     if 'video' not in request.files:
         return jsonify({"error": "No video file provided"}), 400
  
@@ -100,6 +103,7 @@ def upload_video():
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
 
 
 
