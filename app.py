@@ -25,7 +25,7 @@ os.makedirs(BASE_FOLDER, exist_ok=True)
 CORS(
     app,
     resources={
-        r"/*": {
+        r"/.*": {   # ✅ correct regex
             "origins": [
                 "http://localhost:8080",
                 "http://127.0.0.1:8080",
@@ -33,7 +33,8 @@ CORS(
                 "https://airtable-react-reveal.lovable.app"
             ]
         }
-    }
+    },
+    supports_credentials=False
 )
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -99,5 +100,6 @@ def upload_video():
  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
 
 
